@@ -73,8 +73,14 @@ public class Node {
         public void run() {
             super.run();
             while(gameActive){
-
+                System.out.println("Game still in progress");
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            System.out.println("Game stopped");
         }
     }
 }
