@@ -5,6 +5,9 @@ public class Node {
     private int activeMoles;
     private boolean gameActive;
 
+    public static void main(String[] args) {
+        new Node();
+    }
     public Node() {
         frame = new mainFrame();
     }
