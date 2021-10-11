@@ -5,11 +5,13 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 public class mainFrame {
+    JPanel mainPanel;
     public mainFrame() {
+        mainPanel = new mainPanel();
         JFrame frame = new JFrame("Sick wack-a-mole");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new mainPanel());
-        frame.setLocation(-1030, 0);
+        frame.add(mainPanel);
+        frame.setLocation(-1040, 0);
         frame.pack();
         frame.setVisible(true);
     }
@@ -25,47 +27,48 @@ public class mainFrame {
         }
 
         private class nodePanel extends JPanel{
+            JButton nodeButton;
             public nodePanel(int w, int h){
                 setPreferredSize(new Dimension(w,h));
+                setAlignmentX(Component.CENTER_ALIGNMENT);
+                setAlignmentY(Component.CENTER_ALIGNMENT);
+                nodeButton = new JButton("READY");
+                nodeButton.setPreferredSize(new Dimension(w*8/9,h*8/9));
+                add(nodeButton);
             }
         }
+
+
 
         private class controlPanel extends JPanel implements ActionListener {
             private LinkedList<JButton> buttons;
             public controlPanel(int w, int h){
                 setPreferredSize(new Dimension(w,h));
                 buttons = new LinkedList<>();
-                JButton buttonConnect = new JButton("Connect a node");
-                buttons.add(buttonConnect);
-
-                JButton buttonDisconnectChild = new JButton("Disconnect a child node");
-                buttons.add(buttonDisconnectChild);
-
-                JButton buttonDisconnectParent = new JButton("Disconnect a parent node");
-                buttons.add(buttonDisconnectParent);
-
-                JButton buttonDisconnectHead = new JButton("Disconnect a head node");
-                buttons.add(buttonDisconnectHead);
-
-                JButton buttonStart = new JButton("Start game");
-                buttons.add(buttonStart);
-
-                JButton buttonExit = new JButton("Exit game");
-                buttons.add(buttonExit);
-
-                JButton buttonReset = new JButton("Reset");
-                buttons.add(buttonReset);
+                for(int i = 1; i<9; i++){
+                    String s = "Receive " + i;
+                    JButton buttonConnect = new JButton(s);
+                    buttons.add(buttonConnect);
+                }
+                for(int i = 1; i<10; i++){
+                    String s = "Send " + i;
+                    JButton buttonConnect = new JButton(s);
+                    buttons.add(buttonConnect);
+                }
 
                 for (JButton b : buttons) {
-                    b.setPreferredSize(new Dimension(getPreferredSize().width - 20, 50));
+                    b.setPreferredSize(new Dimension(getPreferredSize().width - 20, (getPreferredSize().height-100)/(buttons.size())));
                     b.setFont(new Font("Arial", Font.PLAIN, 10));
                     b.addActionListener(this);
+                    add(b);
                 }
+
             }
 
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                JButton button = (JButton) actionEvent.getSource();
+                System.out.println(button.getText());
             }
         }
     }
