@@ -14,7 +14,6 @@ public class mainFrame {
         private nodePanel nodePanel;
         private controlPanel controlPanel;
         public mainPanel(){
-
         }
 
         private class nodePanel {
