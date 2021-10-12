@@ -53,6 +53,7 @@ public class mainFrame {
                                 public void run() {
                                    if ( eventCnt == 2 ) {
                                         System.err.println("you double clicked. Sending Start game to others");
+                                        node.analyzeMessage(new Message(6,""));
                                     }
                                     eventCnt = 0;
                                 }
@@ -60,6 +61,7 @@ public class mainFrame {
                         }
                     }
                 });
+                node.setButton(nodeButton);
                 nodeButton.setPreferredSize(new Dimension(w*8/9,h*8/9));
                 add(nodeButton);
             }

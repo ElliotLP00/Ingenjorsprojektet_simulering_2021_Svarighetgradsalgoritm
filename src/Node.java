@@ -1,9 +1,12 @@
+import javax.swing.*;
+
 public class Node {
     private mainFrame frame;
     private int difficulty;
     private int connectedNodes;
     private int activeMoles;
     private boolean gameActive;
+    private JButton button;
 
     public static void main(String[] args) {
         new Node();
@@ -57,6 +60,10 @@ public class Node {
                 connectedNodes--;
                 break;
         }
+    }
+
+    public void setButton(JButton nodeButton) {
+        button = nodeButton;
     }
 
     private class Game extends Thread{
