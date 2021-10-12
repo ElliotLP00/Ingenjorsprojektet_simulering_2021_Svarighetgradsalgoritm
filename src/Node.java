@@ -16,6 +16,7 @@ public class Node {
     }
 
     public void analyzeMessage(Message message) {
+
         switch (message.getMessageType()){
             case 1:
                 System.out.println("Incoming New node.");
@@ -28,32 +29,52 @@ public class Node {
                 //send(Stirng to = message.getSentFrom(), Message message)
                 break;
             case 3:
-                System.out.println("Incoming Mole active");
-                activeMoles++;
+                if(gameActive){
+                    System.out.println("Incoming Mole active");
+                    activeMoles++;
+                }else{
+                    System.err.println("NOT POSSIBLE IN THIS STATE");
+                }
                 break;
             case 4:
-                System.out.println("Incoming Mole hit.");
-                String data = message.getData();
-                difficulty += Integer.parseInt(data);
-                activeMoles--;
+                if(gameActive){
+                    System.out.println("Incoming Mole hit.");
+                    String data = message.getData();
+                    difficulty += Integer.parseInt(data);
+                    activeMoles--;
+                }else{
+                    System.err.println("NOT POSSIBLE IN THIS STATE");
+                }
                 break;
             case 5:
-                System.out.println("Incoming Mole miss");
-                if(difficulty > 0)
-                    difficulty--;
-                if(message.getData()=="Mole time exceeded"){
-                    activeMoles--;
+                if(gameActive){
+                    System.out.println("Incoming Mole miss");
+                    if(difficulty > 0)
+                        difficulty--;
+                    if(message.getData()=="Mole time exceeded"){
+                        activeMoles--;
+                    }
+                }else{
+                    System.err.println("NOT POSSIBLE IN THIS STATE");
                 }
                 break;
             case 6:
-                System.out.println("Incoming Start game");
-                activeMoles = 0;
-                gameActive = true;
-                new Game().start();
+                if(!gameActive && connectedNodes >= 4){
+                    System.out.println("Incoming Start game");
+                    activeMoles = 0;
+                    gameActive = true;
+                    new Game().start();
+                }else{
+                    System.err.println("NOT POSSIBLE IN THIS STATE");
+                }
                 break;
             case 7:
-                System.out.println("Incoming Stop game");
-                gameActive = false;
+                if (gameActive){
+                    System.out.println("Incoming Stop game");
+                    gameActive = false;
+                }else{
+                    System.err.println("NOT POSSIBLE IN THIS STATE");
+                }
                 break;
             case 8:
                 System.out.println("Incoming Node disconnected");
