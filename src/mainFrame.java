@@ -72,10 +72,8 @@ public class mainFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 JButton button = (JButton) actionEvent.getSource();
-                System.out.println(button.getText());
                 String text = button.getText();
                 int type = Integer.parseInt(String.valueOf(text.charAt(text.length()-1)));
-                System.out.println(type);
                 String data = "";
                 switch (type){
                     //case 1,3,6,7,8 dose not need to send any data only type.
@@ -91,8 +89,9 @@ public class mainFrame {
                         data = "-1";
                         break;
                 }
-                new Message(type,data);
-
+                Message m = new Message(type,data);
+                System.out.println(m.getMessageType()+", data:"+m.getMessageType());
+                node.analyzeMessage(m);
 
             }
         }

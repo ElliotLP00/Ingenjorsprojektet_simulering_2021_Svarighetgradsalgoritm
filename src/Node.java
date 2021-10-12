@@ -12,7 +12,7 @@ public class Node {
         frame = new mainFrame(this);
     }
 
-    private void analyzeMessage(Message message) {
+    public void analyzeMessage(Message message) {
         switch (message.getMessageType()){
             case 1:
                 System.out.println("Incoming New node.");
