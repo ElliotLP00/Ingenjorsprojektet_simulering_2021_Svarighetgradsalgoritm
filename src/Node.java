@@ -9,7 +9,7 @@ public class Node {
         new Node();
     }
     public Node() {
-        frame = new mainFrame();
+        frame = new mainFrame(this);
     }
 
     private void analyzeMessage(Message message) {

@@ -3,10 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class mainFrame {
-    JPanel mainPanel;
-    public mainFrame() {
+    private JPanel mainPanel;
+    private Node node;
+    public mainFrame(Node node) {
+        this.node = node;
         mainPanel = new mainPanel();
         JFrame frame = new JFrame("Sick wack-a-mole");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,11 +53,12 @@ public class mainFrame {
                     JButton buttonConnect = new JButton(s);
                     buttons.add(buttonConnect);
                 }
+                /*
                 for(int i = 1; i<10; i++){
                     String s = "Send " + i;
                     JButton buttonConnect = new JButton(s);
                     buttons.add(buttonConnect);
-                }
+                }*/
 
                 for (JButton b : buttons) {
                     b.setPreferredSize(new Dimension(getPreferredSize().width - 20, (getPreferredSize().height-100)/(buttons.size())));
@@ -69,6 +73,27 @@ public class mainFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 JButton button = (JButton) actionEvent.getSource();
                 System.out.println(button.getText());
+                String text = button.getText();
+                int type = Integer.parseInt(String.valueOf(text.charAt(text.length()-1)));
+                System.out.println(type);
+                String data = "";
+                switch (type){
+                    //case 1,3,6,7,8 dose not need to send any data only type.
+                    case 2:
+                        data = "From server, To node_ID";
+                        break;
+                    case 4:
+                        Random r = new Random();
+                        int i = r.nextInt(3)+1;
+                        data = ""+i;
+                        break;
+                    case 5:
+                        data = "-1";
+                        break;
+                }
+                new Message(type,data);
+
+
             }
         }
     }
