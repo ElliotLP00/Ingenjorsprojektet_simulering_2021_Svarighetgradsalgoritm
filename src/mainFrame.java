@@ -8,6 +8,7 @@ import java.util.Random;
 public class mainFrame {
     private JPanel mainPanel;
     private Node node;
+    private JButton nodeButton;
     public mainFrame(Node node) {
         this.node = node;
         mainPanel = new mainPanel();
@@ -30,12 +31,17 @@ public class mainFrame {
         }
 
         private class nodePanel extends JPanel{
-            JButton nodeButton;
             public nodePanel(int w, int h){
                 setPreferredSize(new Dimension(w,h));
                 setAlignmentX(Component.CENTER_ALIGNMENT);
                 setAlignmentY(Component.CENTER_ALIGNMENT);
                 nodeButton = new JButton("READY");
+                nodeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+
+                    }
+                });
                 nodeButton.setPreferredSize(new Dimension(w*8/9,h*8/9));
                 add(nodeButton);
             }
