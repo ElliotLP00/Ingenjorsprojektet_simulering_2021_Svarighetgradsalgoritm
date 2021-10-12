@@ -2,8 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.TimerTask;
 
 public class mainFrame {
     private JPanel mainPanel;
@@ -36,10 +39,25 @@ public class mainFrame {
                 setAlignmentX(Component.CENTER_ALIGNMENT);
                 setAlignmentY(Component.CENTER_ALIGNMENT);
                 nodeButton = new JButton("READY");
-                nodeButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
 
+                nodeButton.addMouseListener(new MouseAdapter() {
+                    private int eventCnt = 0;
+                    java.util.Timer timer = new java.util.Timer("doubleClickTimer", false);
+
+                    @Override
+                    public void mouseClicked(final MouseEvent e) {
+                        eventCnt = e.getClickCount();
+                        if ( e.getClickCount() == 1 ) {
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                   if ( eventCnt == 2 ) {
+                                        System.err.println("you double clicked. Sending Start game to others");
+                                    }
+                                    eventCnt = 0;
+                                }
+                            }, 400);
+                        }
                     }
                 });
                 nodeButton.setPreferredSize(new Dimension(w*8/9,h*8/9));
