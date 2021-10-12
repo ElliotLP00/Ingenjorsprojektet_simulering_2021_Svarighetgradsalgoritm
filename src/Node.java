@@ -79,6 +79,7 @@ public class Node {
             case 8:
                 System.out.println("Incoming Node disconnected");
                 connectedNodes--;
+                System.out.println("Total:"+connectedNodes);
                 break;
         }
     }
