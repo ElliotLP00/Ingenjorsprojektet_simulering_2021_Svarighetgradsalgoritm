@@ -112,7 +112,13 @@ public class mainFrame {
                         data = ""+i;
                         break;
                     case 5:
-                        data = "-1";
+                        Random ra = new Random();
+                        if(ra.nextBoolean()){
+                            data = "Mole time exceeded";
+                        }else{
+                            data = "Incoming Mole miss";
+                        }
+
                         break;
                 }
                 Message m = new Message(type,data);

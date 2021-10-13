@@ -1,4 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Node {
     private mainFrame frame;
@@ -29,7 +33,7 @@ public class Node {
                 //send(Stirng to = message.getSentFrom(), Message message)
                 break;
             case 3:
-                if(gameActive){
+                if(activeMoles < 4 && gameActive){
                     System.out.println("Incoming Mole active");
                     activeMoles++;
                 }else{
@@ -37,7 +41,7 @@ public class Node {
                 }
                 break;
             case 4:
-                if(gameActive){
+                if(activeMoles > 0 && gameActive){
                     System.out.println("Incoming Mole hit.");
                     String data = message.getData();
                     difficulty += Integer.parseInt(data);
@@ -51,8 +55,10 @@ public class Node {
                     System.out.println("Incoming Mole miss");
                     if(difficulty > 0)
                         difficulty--;
-                    if(message.getData()=="Mole time exceeded"){
+                    if(message.getData()=="Mole time exceeded" && activeMoles>0){
                         activeMoles--;
+                    }else{
+                        System.err.println("NOT POSSIBLE IN THIS STATE");
                     }
                 }else{
                     System.err.println("NOT POSSIBLE IN THIS STATE");
@@ -82,6 +88,7 @@ public class Node {
                 System.out.println("Total:"+connectedNodes);
                 break;
         }
+        System.out.println("\n");
     }
 
     public void setButton(JButton nodeButton) {
@@ -90,21 +97,53 @@ public class Node {
 
     private class Game extends Thread{
         private float timeLeft;
-        private int minCooldowntime;
-        private int maxCooldowntime;
+        private int minCooldowntime = 1000;
+        private int maxCooldowntime = 4000;
+        private boolean ready;
         private boolean active;
 
         public Game(){
-
+            ready = true;
+            active = false;
+            button.setBackground(Color.WHITE);
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    System.out.println("Deactivating mole");
+                    if (button.getBackground() == Color.green){
+                        button.setBackground(Color.white);
+                        activeMoles--;
+                        active = false;
+                        ready = false;
+                    }
+                }
+            });
         }
 
         @Override
         public void run() {
             super.run();
             while(gameActive){
-                System.out.println("Game still in progress");
+                if(activeMoles < 4 && !active && ready){
+                    System.out.println("Seting mole to active");
+                    active=true;
+                    ready = false;
+                    button.setBackground(Color.green);
+                    activeMoles++;
+                }else if(!ready && !active){
+                    System.out.println("Mole hit starting cooldown");
+                    Random r = new Random();
+                    try {
+                        sleep(r.nextInt(maxCooldowntime-minCooldowntime)+minCooldowntime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    ready = true;
+                    System.out.println("Mole ready");
+                }
+                Random r = new Random();
                 try {
-                    sleep(1000);
+                    sleep(r.nextInt(20)+20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
